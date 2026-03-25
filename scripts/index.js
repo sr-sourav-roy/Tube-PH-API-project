@@ -1,40 +1,23 @@
-// function loadCategory() {
-//   fetch("https://openapi.programming-hero.com/api/phero-tube/categories")
-//     .then((res) => res.json())
-//     .then((data) => displayCategory(data.categories));
-// }
-
-// // API this call:-
-// //             "category_id": "1001",
-// //             "category": "Music"
-// //         },
-
-// function displayCategory(categories) {
-//   for (const cate of categories) {
-//     const CategoryContainer = document.getElementById("Category-container");
-
-//     const categoryDiv = document.createElement("div");
-//     categoryDiv.innerHTML = `
-//       <button class="btn btn-sm hover:bg-[#FF1F3D]">${cate.category}</button>
-//       `;
-//     CategoryContainer.append(categoryDiv);
-//   }
-// }
-// loadCategory();
-
-// loadCategory Functions:
+// loadCategory functions:
 function loadCategory() {
   fetch("https://openapi.programming-hero.com/api/phero-tube/categories#")
     .then((res) => res.json())
     .then((data) => displayCategory(data.categories));
 }
-
 // loadVideos function:
 function loadVideo() {
   fetch("https://openapi.programming-hero.com/api/phero-tube/videos")
     .then((res) => res.json())
     .then((data) => displayVideo(data.videos));
 }
+// loadCategoryVideo:d
+const loadCategoryVideos = (id) => {
+  const url = `https://openapi.programming-hero.com/api/phero-tube/category/${id}`;
+  console.log(url);
+  fetch(url)
+    .then((res) => res.json())
+    .then((data) => displayVideo(data.category));
+};
 
 // displayCategory function:
 function displayCategory(typeNames) {
@@ -45,7 +28,7 @@ function displayCategory(typeNames) {
     //   created
     const categoryDiv = document.createElement("div");
     categoryDiv.innerHTML = `
-      <button class="btn btn-sm  hover:bg-[#FF1F3D] p-4">${name.category}</button>
+      <button onclick="loadCategoryVideos(${name.category_id})" class="btn btn-sm  hover:bg-[#FF1F3D] p-4">${name.category}</button>
       `;
     CategoryContainer.append(categoryDiv);
   }
@@ -70,10 +53,10 @@ function displayCategory(typeNames) {
 // "description": "Dive into the rhythm of 'Shape of You,' a captivating track that blends pop sensibilities with vibrant beats. Created by Olivia Mitchell, this song has already gained 100K views since its release. With its infectious melody and heartfelt lyrics, 'Shape of You' is perfect for fans looking for an uplifting musical experience. Let the music take over as Olivia's vocal prowess and unique style create a memorable listening journey
 
 const displayVideo = (videos) => {
-  console.log(videos);
+  const videoContainer = document.getElementById("video-container");
+  // this point--> finish hum all videos
+  videoContainer.innerHTML = "";
   videos.forEach((video) => {
-    const videoContainer = document.getElementById("video-container");
-
     const videoCard = document.createElement("div");
     videoCard.innerHTML = `
          <div class="card bg-base-100">
@@ -117,4 +100,3 @@ const displayVideo = (videos) => {
 
 // call functions:
 loadCategory();
-loadVideo();
