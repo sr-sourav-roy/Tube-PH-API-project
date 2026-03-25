@@ -70,25 +70,46 @@ function displayCategory(typeNames) {
 // "description": "Dive into the rhythm of 'Shape of You,' a captivating track that blends pop sensibilities with vibrant beats. Created by Olivia Mitchell, this song has already gained 100K views since its release. With its infectious melody and heartfelt lyrics, 'Shape of You' is perfect for fans looking for an uplifting musical experience. Let the music take over as Olivia's vocal prowess and unique style create a memorable listening journey
 
 const displayVideo = (videos) => {
+  console.log(videos);
   videos.forEach((video) => {
     const videoContainer = document.getElementById("video-container");
 
     const videoCard = document.createElement("div");
     videoCard.innerHTML = `
-    <div class="card bg-base-100 shadow-xl">
-  <figure>
-    <img
-      src="${video.thumbnail}"
-      alt="Shoes" />
-  </figure>
-  <div class="card-body">
-    <h2 class="card-title">${video.title}</h2>
-    <p>If a dog chews shoes whose shoes does he choose?</p>
-    <div class="card-actions justify-end">
-      <button class="btn btn-primary">Buy Now</button>
-    </div>
-  </div>
-</div>
+         <div class="card bg-base-100">
+        <figure class="relative">
+          <img class="w-full h-[300px] object-cover" src="${video.thumbnail}" alt="" />
+          <span
+            class="absolute bottom-2 right-3 text-sm text-white bg-black px-2 rounded-sm"
+            >3hrs 56 min ago</span
+          >
+        </figure>
+        <div class="flex gap-3 px-0 py-5">
+          <div class="profile">
+            <div class="avatar">
+              <div
+                class="ring-primary ring-offset-base-100 w-10 rounded-full ring ring-offset-2"
+              >
+                <img
+                  src="${video.authors[0].profile_picture}"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="intro">
+            <h2 class="font-semibold">Midnight Serenade</h2>
+            <p class="text-gray-400 text-sm flex gap-1">
+              ${video.authors[0].profile_name}
+              <img
+                class="w-5 h-5"
+                src="https://img.icons8.com/?size=48&id=SRJUuaAShjVD&format=png"
+                alt=""
+              />
+            </p>
+            <p class="text-gray-400 text-sm">${video.others.views} views</p>
+          </div>
+        </div>
+      </div>
     `;
     videoContainer.append(videoCard);
   });
