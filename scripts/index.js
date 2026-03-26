@@ -14,8 +14,10 @@ function loadCategory() {
 }
 
 // 😊 loadVideos function:
-function loadVideo() {
-  fetch("https://openapi.programming-hero.com/api/phero-tube/videos")
+function loadVideo(searchText = "") {
+  fetch(
+    `https://openapi.programming-hero.com/api/phero-tube/videos?title=${searchText}`,
+  )
     .then((res) => res.json())
     .then((data) => {
       activeRemoveClass();
@@ -38,7 +40,7 @@ const displayVideoDetails = (video) => {
   document.getElementById("video_details").showModal();
   const detailsCardContainer = document.getElementById("details_cardContainer");
   detailsCardContainer.innerHTML = `
-  <div class="card px-8">
+  <div class="card px">
   <figure>
     <img
       src="${video.thumbnail}"
@@ -154,14 +156,18 @@ const displayVideo = (videos) => {
             </div>
           </div>
           <div class="intro">
-            <h2 class="font-semibold">Midnight Serenade</h2>
+            <h2 class="font-semibold">${video.authors[0].profile_name}</h2>
             <p class="text-gray-400 text-sm flex gap-1">
               ${video.authors[0].profile_name}
-              <img
-                class="w-5 h-5"
-                src="https://img.icons8.com/?size=48&id=SRJUuaAShjVD&format=png"
-                alt=""
-              />
+              ${
+                video.authors[0].verified == true
+                  ? `<img
+                    class="w-5 h-5"
+                    src="https://img.icons8.com/?size=48&id=SRJUuaAShjVD&format=png"
+                    alt=""
+                  />`
+                  : ``
+              }
             </p>
             <p class="text-gray-400 text-sm">${video.others.views} views</p>
           </div>
@@ -172,6 +178,12 @@ const displayVideo = (videos) => {
     videoContainer.append(videoCard);
   });
 };
+
+// search-input functions:
+document.getElementById("search-input").addEventListener("keyup", (e) => {
+  const input = e.target.value;
+  loadVideo(input);
+});
 
 // 🔥call functions:
 loadCategory();
