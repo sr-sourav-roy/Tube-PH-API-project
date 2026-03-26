@@ -23,6 +23,38 @@ function loadVideo() {
       displayVideo(data.videos);
     });
 }
+
+// loadVideoDetails function:
+const loadVideoDetails = (videoId) => {
+  console.log(videoId);
+  const ulr = `https://openapi.programming-hero.com/api/phero-tube/video/${videoId}`;
+  fetch(ulr)
+    .then((res) => res.json())
+    .then((data) => displayVideoDetails(data.video));
+};
+
+const displayVideoDetails = (video) => {
+  console.log(video);
+  document.getElementById("video_details").showModal();
+  const detailsCardContainer = document.getElementById("details_cardContainer");
+  detailsCardContainer.innerHTML = `
+  <div class="card px-8">
+  <figure>
+    <img
+      src="${video.thumbnail}"
+      alt="Shoes" />
+  </figure>
+  <div class="card-body">
+    <h2 class="card-title">${video.authors[0].profile_name}</h2>
+    <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
+    <p>${video.authors[0].verified}</p>
+    <div class="card-actions justify-end">
+    </div>
+  </div>
+</div>
+  `;
+};
+
 // 😊 loadCategoryVideo:d
 const loadCategoryVideos = (id) => {
   const ulr = `https://openapi.programming-hero.com/api/phero-tube/category/${id}`;
@@ -134,6 +166,7 @@ const displayVideo = (videos) => {
             <p class="text-gray-400 text-sm">${video.others.views} views</p>
           </div>
         </div>
+        <button onclick="loadVideoDetails('${video.video_id}')" class="btn btn-block">Show Details</button>
       </div>
     `;
     videoContainer.append(videoCard);
